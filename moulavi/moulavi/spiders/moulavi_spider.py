@@ -3,14 +3,26 @@ import scrapy
 
 class MoulaviSpider(scrapy.Spider):
 	name = "moulavi"
-
-	def start_requests(self):
-		urls = ['https://ganjoor.net/moulavi/masnavi/daftar1/sh1/']
-		for url in urls:
-			yield scrapy.Request(url=url, callback=self.parse)
+	start_urls = ['https://ganjoor.net/moulavi/masnavi/daftar1/sh1/']
 
 	def parse(self, response):
-		filename = 'moulavi.html'
-		with open(filename, 'wb') as f:
-			f.write(response.body)
-		self.log('Saved file %s' % filename)
+		for line in response.css('div.b'):
+			yield {
+				'right_column': line.css('p::text').extract_first(),
+			}
+
+
+"""
+import scrapy
+
+
+class MoulaviSpider(scrapy.Spider):
+	name = "moulavi"
+	start_urls = ['https://ganjoor.net/moulavi/masnavi/daftar1/sh1/']
+
+	def parse(self, response):
+		for line in response.css('div.b'):
+			yield {
+				'right_column': line.css('div.m1::text').extract_first(),
+			}
+"""
