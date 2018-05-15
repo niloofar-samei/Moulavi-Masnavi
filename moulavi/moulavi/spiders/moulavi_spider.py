@@ -8,7 +8,7 @@ class MoulaviSpider(scrapy.Spider):
 	def parse(self, response):
 		for line in response.css('div.b'):
 			yield {
-				'right_column': line.css('p::text').extract_first(),
+				'right_column': line.css('p::text').extract(),
 			}
 
 
