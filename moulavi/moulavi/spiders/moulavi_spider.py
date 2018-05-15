@@ -8,7 +8,8 @@ class MoulaviSpider(scrapy.Spider):
 	def parse(self, response):
 		for line in response.css('div.b'):
 			yield {
-				'right_column': line.css('p::text').extract(),
+				'right_column': line.css('div.m1').extract(),
+				'left_column': line.css('div.m2').extract(),
 			}
 
 
@@ -23,6 +24,7 @@ class MoulaviSpider(scrapy.Spider):
 	def parse(self, response):
 		for line in response.css('div.b'):
 			yield {
-				'right_column': line.css('div.m1::text').extract_first(),
+				'right_column': line.css('p::text').extract(),
 			}
+
 """
