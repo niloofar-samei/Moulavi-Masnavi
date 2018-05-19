@@ -13,9 +13,10 @@ class MoulaviSpider(scrapy.Spider):
 			yield scrapy.Request(url=url, callback=self.parse)
 
 	def parse(self, response):
-		for line in response.css('div.b'):
-			yield {
-				'title': response.css('h2 a::text').extract(),
-				'right_column': line.css('div.m1').extract(),
-				'left_column': line.css('div.m2').extract(),
-			}
+		content = [
+		  {'right_column': line.css('div.m1').extract(),
+		   'left_column': line.css('div.m2').extract()}
+		  for line in response.css('div.b')
+		]            
+		yield {'title': response.css('h2 a::text').extract_first(),
+			   'content': content}
